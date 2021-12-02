@@ -1,0 +1,44 @@
+@model Column;
+
+@* <form method="post"> *@
+    <div>
+        <h1 class="d-inline text-secondary">_launchPad.</h1>
+        <h4 class="d-inline text-secondary">Administration</h4>   
+        <input type="submit" asp-controller="Login" asp-action="Logout" value="Logout" class="align-top btn btn-success"><span id="lblExpire" class="text-warning" style="margin-left:10px"></span>
+    </div>
+    <div>
+        <h1 class="text-warning pt-2">Edit Link.</h1>
+        <p>Edit the link data below</p>
+        <h4>Category</h4>
+        <form  asp-controller="Admin" asp-action="EditLinkSubmit">
+            <div class="form-group">
+                <select id="lstColumns" asp-for="@Model.categoryID" class="btn btn-secondary form-control" asp-items="ViewBag.selectList" style="width:450px;max-width:450px;"></select>
+            </div>
+        <div class="form-group">
+            <h4 class="pt-2">Label</h4>
+            @* <input type="hidden" asp-for="@Model.columnID" /> *@
+            @* hidden field is passed in to know what id of the link to have dispalying in the boxes *@
+            <input type="hidden" asp-for="@Model.linkID" />
+            <span asp-validation-for="@Model.linkName" class="text-danger"></span>
+            <input type="text" asp-for="@Model.linkName" class="form-control" style="width:450px;max-width:450px;"/>
+            
+            <h4 class="pt-2">Href</h4>
+            <span asp-validation-for="@Model.permalink" class="text-danger"></span>
+            <input type="text" asp-for="@Model.permalink" class="form-control" style="width:750px;max-width:750px;"/>
+            
+            <h4 class="pt-2">Pinned</h4>
+            <input id="checkbox" asp-for="@Model.pinned" type="checkbox" class="text-warning"> Pin link to top
+        </div>
+            <div class="form-group pt-3">
+                <input type="submit" class="btn btn-warning" Text="Edit" />
+                <a asp-controller="Admin" asp-action="Index"><input type="button" class="btn btn-warning" value="Cancel" /></a>
+            </div>
+        </form>
+    </div>
+@* </form> *@
+
+@section scripts {
+    <script>
+        startAutoLogout();
+    </script>
+}

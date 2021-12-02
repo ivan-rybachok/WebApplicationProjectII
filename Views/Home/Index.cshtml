@@ -1,0 +1,65 @@
+﻿@model ColumnManager;
+
+<div>
+    <div class="row">
+    <h1>_launchPad.</h1>
+        <form method="post">
+            <input type="submit" asp-controller="Login" value="Login" class="btn btn-success">
+        </form>
+    </div>
+    @* <div class="container"> *@
+    <div class="row">
+
+        @* creating a for each loop to go through columns list and take out the certain category  *@
+        @foreach (var item in Model.columns)
+        {
+            <div class= "col">
+                @* item.categoryName gets them showing on the page *@
+                <h4>@item.categoryName</h4> 
+
+                @* than it does another for each loop in which it it goes through the pinned links function list and gets only the pinned link name and permalink by also knowing having an id of each category so it can display it  *@
+                @* inside of it. The id of the category is passsed to the GetDataPinned and than is been searched there with Where. *@
+                @foreach (var link in Model.GetDataPinned(item.categoryID))
+                {
+                    <img src="https://www.google.com/s2/favicons?domain_url=@link.permalink" alt="@link.permalink" class="icon" />
+                    <a class="text-dark" href="@link.permalink" target="_blank">@link.linkName</a><br>
+                }
+                
+                @* this is just to add a divided line to show the pinned links *@
+                @if(@Model.GetDataPinned(item.categoryID).Count > 0){
+                    <div>--------------------------------------</div>
+                }
+                @* it does the same thing here as the pinned data but with the links that are not pinned it know which are pinned and which are not because of the function inside the columnmanager *@
+                @foreach (var link in Model.GetData(item.categoryID))
+                {
+                    <img src="https://www.google.com/s2/favicons?domain_url=@link.permalink" alt="@link.permalink" class="icon" />
+                    <a class="text-dark" href="@link.permalink" target="_blank">@link.linkName</a><br>
+                }
+            </div>
+
+        }
+
+            @* @for (int j = 0; j < Model.columns.Count; j++) {
+                <div class= "col">
+                    <h4>@Model.columns[j]</h4>
+                    @for(int i = 0; i < @Model.GetDataPinned(Model.columns[j]).Count; i++){
+                        
+                        <img src="https://www.google.com/s2/favicons?domain_url=@Model.GetDataPinned(Model.columns[j])[i].permalink" alt="@Model.GetDataPinned(Model.columns[j])[i].permalink" class="icon" />
+                        <a class="text-dark" href="@Model.GetDataPinned(Model.columns[j])[i].permalink">@Model.GetDataPinned(Model.columns[j])[i].linkName</a><br>
+                    
+                    }
+                    @if(@Model.GetDataPinned(Model.columns[j]).Count > 0){
+                        <div>--------------------------------------</div>
+                    }
+                    Model.coumnns tells what column data to take out
+                    @for (int i = 0; i < @Model.GetData(Model.columns[j]).Count; i++) {
+                        
+                        <img src="https://www.google.com/s2/favicons?domain_url=@Model.GetData(Model.columns[j])[i].permalink" alt="@Model.GetData(Model.columns[j])[i].permalink" class="icon" />
+                        <a class="text-dark" href="@Model.GetData(Model.columns[j])[i].permalink">@Model.GetData(Model.columns[j])[i].linkName</a><br>
+                        
+                    }
+                </div>
+            } *@
+        @* </div> *@
+    </div>
+</div>

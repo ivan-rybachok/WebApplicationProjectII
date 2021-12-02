@@ -1,0 +1,37 @@
+@model Column;
+<form method="post">
+    <div>
+        <h1 class="d-inline text-secondary">_launchPad.</h1>
+        <h4 class="d-inline text-secondary">Administration</h4>   
+        <input type="submit" asp-controller="Login" asp-action="Logout" value="Logout" class="align-top btn btn-success"><span id="lblExpire" class="text-warning" style="margin-left:10px"></span>
+    </div>
+    <div>
+        <h1 class="text-warning pt-2">Add Link.</h1>
+        <p>Enter the new link data below</p>
+        <h4>Category</h4>
+        <div class="form-group">
+            <input type="hidden" asp-for="@Model.categoryID" />
+            @* passed in view to use categoryName inside the input textbox *@
+            @{var categoryName = ViewData["categoryName"];}
+            <input type="text" asp-for="@categoryName" readonly="readonly" class="form-control bg-light border" style="width:450px;max-width:450px;"/>
+            <h4 class="pt-2">Label</h4>
+            <span asp-validation-for="@Model.linkName" class="text-danger"></span>
+            <input type="text" asp-for="@Model.linkName" class="form-control" maxlength="100" style="width:450px;max-width:450px;"/>
+            <h4 class="pt-2">Href</h4>
+            <span asp-validation-for="@Model.permalink" class="text-danger"></span>
+            <input type="text" asp-for="@Model.permalink" class="form-control" maxlength="100" style="width:750px;max-width:750px;"/>
+            <h4 class="pt-2">Pinned</h4>
+            <input id="checkbox" name="checkbox" value="true" type="checkbox" class="text-warning"> Pin link to top
+        </div>
+        <div class="form-group pt-3">
+            <input type="submit" asp-controller="Admin" asp-action="AddSubmit" class="btn btn-warning" value="Add" />
+            <a asp-controller="Admin" asp-action="Index"><input type="button" class="btn btn-warning" value="Cancel" /></a>
+        </div>
+    </div>
+</form>
+
+@section scripts {
+    <script>
+        startAutoLogout();
+    </script>
+}

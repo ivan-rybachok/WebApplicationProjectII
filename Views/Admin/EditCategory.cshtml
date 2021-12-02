@@ -1,0 +1,31 @@
+
+@model Categories;
+
+<form method="post">
+    <div>
+        <h1 class="d-inline text-secondary">_launchPad.</h1>
+        <h4 class="d-inline text-secondary">Administration</h4>   
+        <input type="submit" asp-controller="Login" asp-action="Logout" value="Logout" class="align-top btn btn-success"><span id="lblExpire" class="text-warning" style="margin-left:10px"></span>
+    </div>
+    <div>
+        <h1 class="text-warning pt-2">Edit Category.</h1>
+        <p>Edit the category data below</p>
+        <h4>Name</h4>
+        @* <input type="hidden" asp-for="@Model.linkID" /> *@
+        @* id is passed in so it know what id the categoryName to show *@
+        <input type="hidden" asp-for="@Model.categoryID" />
+        <span asp-validation-for="@Model.categoryName" class="text-danger"></span>
+        <input asp-for="@Model.categoryName" type="text" maxlength="100" class="form-control" style="width:450px;max-width:450px;"/>
+
+        <div class="form-group pt-3">
+            <input type="submit" asp-controller="Admin" asp-action="EditCategorySubmit" class="btn btn-warning" value="Edit" />
+            <a asp-controller="Admin" asp-action="Index"><input type="button" class="btn btn-warning" value="Cancel" /></a>
+        </div>
+    </div>
+</form>
+
+@section scripts {
+    <script>
+        startAutoLogout();
+    </script>
+}

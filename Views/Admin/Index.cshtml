@@ -1,0 +1,117 @@
+@model ColumnManager;
+
+<form asp-controller="Admin" asp-action="Index">
+    <div>
+        <h1 class="d-inline text-secondary">_launchPad.</h1>
+        <h4 class="d-inline text-secondary">Administration</h4>   
+            <form method="post">
+                <input type="submit" asp-controller="Login" asp-action="Logout" value="Logout" class="align-top btn btn-success"><span id="lblExpire" class="text-warning" style="margin-left:10px"></span>
+            </form>
+    </div>
+    @* <div class="container"> *@
+    <div class="row">
+        
+        @* same procces as the home index happening here except now there are buttons are added that have controller and action assigned to them so it knows what view to go to *@
+        @foreach (var item in Model.columns)
+        {
+            <div class= "col">
+                <form method="post">
+                <h4 class="pt-3 text-break">@item.categoryName
+                    @* hidden fields are used to pass the values to the Admin controller so it can be used for the views *@
+                    <input type="hidden" name="categoryID" value="@item.categoryID"/>
+                    <input type="hidden" name="categoryName" value="@item.categoryName" />
+                    <button type="submit" asp-controller="Admin" asp-action="Add" class="btn btn-warning"><i class="bi bi-plus-lg"></i></button>
+                    <button type="submit" asp-controller="Admin" asp-action="EditCategory" class="btn btn-warning"><i class="bi bi-pencil"></i></button>
+                </h4>
+            </form>
+
+                @foreach (var link in Model.GetDataPinned(item.categoryID))
+                {
+                <div class="pt-1 text-break">
+                    <form method="post">
+                        @* hidden fields are used to pass the values to the Admin controller so it can be used for the views *@
+                        <input type="hidden" name="linkID" value="@link.linkID" />
+                        <button type="submit" asp-controller="Admin" asp-action="EditLink" class="btn btn-warning"><i class="bi bi-pencil"></i></button>
+                        <button type="submit" asp-controller="Admin" asp-action="DeleteLink" class="btn btn-warning"><i class="bi bi-trash"></i></button>
+                        <img src="https://www.google.com/s2/favicons?domain_url=@link.permalink" alt="@link.permalink" class="icon" />
+                        <a class="text-dark" href="@link.permalink" target="_blank">@link.linkName</a><br>
+                    </form>
+                </div>
+
+                }
+
+                @if(@Model.GetDataPinned(item.categoryID).Count > 0){
+                    <div>--------------------------------------</div>
+                }
+
+                @foreach (var link in Model.GetData(item.categoryID))
+                {
+                    <div class="pt-1 text-break">
+                        <form method="post">
+                            @* hidden fields are used to pass the values to the Admin controller so it can be used for the views *@
+                            <input type="hidden" name="linkID" value="@link.linkID" />
+                            <button type="submit" asp-controller="Admin" asp-action="EditLink" class="btn btn-warning"><i class="bi bi-pencil"></i></button>
+                            <button type="submit" asp-controller="Admin" asp-action="DeleteLink" class="btn btn-warning"><i class="bi bi-trash"></i></button>
+                            <img src="https://www.google.com/s2/favicons?domain_url=@link.permalink" alt="@link.permalink" class="icon" />
+                            <a class="text-dark" href="@link.permalink" target="_blank">@link.linkName</a><br>
+                        </form>
+                    </div>
+                }
+
+
+            </div>
+
+        }
+            @* @for (int j = 0; j < Model.columns.Count; j++) {
+                Console.WriteLine(Model.columns.Count);
+                <div class= "col">
+                <form method="post">
+                    <h4 class="pt-3">@Model.columns[j]
+                        <input type="hidden" name="category" value="@Model.columns[j]"/>
+                        <input type="hidden" name="columnID" value="@j"/>
+                        <input type="hidden" name="categoryEdit" value="@Model.columnName" />
+                        <button type="submit" asp-controller="Admin" asp-action="Add" class="btn btn-warning"><i class="bi bi-plus-lg"></i></button>
+                        <button type="submit" asp-controller="Admin" asp-action="EditCategory" class="btn btn-warning"><i class="bi bi-pencil"></i></button>
+                    </h4>
+                </form>
+                @for(int i = 0; i < @Model.GetDataPinned(Model.columns[j]).Count; i++){
+                    <div class="pt-1">
+                        <form method="post">
+                            <input type="hidden" name="linkID" value="@i" />
+                            <input type="hidden" name="columnID" value="@j" />
+                            <input type="hidden" name="pinned" value="true" />
+                            <button type="submit" asp-controller="Admin" asp-action="EditLink" class="btn btn-warning"><i class="bi bi-pencil"></i></button>
+                            <button type="submit" asp-controller="Admin" asp-action="DeleteLink" class="btn btn-warning"><i class="bi bi-trash"></i></button>
+                            <img src="https://www.google.com/s2/favicons?domain_url=@Model.GetDataPinned(Model.columns[j])[i].permalink" alt="@Model.GetDataPinned(Model.columns[j])[i].permalink" class="icon" />
+                            <a class="text-dark" href="@Model.GetDataPinned(Model.columns[j])[i].permalink">@Model.GetDataPinned(Model.columns[j])[i].linkName</a><br>
+                        </form>
+                    </div>
+                }
+                @if(@Model.GetDataPinned(Model.columns[j]).Count > 0){
+                    <div>--------------------------------------</div>
+                }
+                    Model.coumnns tells what column data to take out
+                    @for (int i = 0; i < @Model.GetData(Model.columns[j]).Count; i++) {
+                        <div class="pt-1">
+                            <form method="post">
+                                <input type="hidden" name="linkID" value="@i" />
+                                <input type="hidden" name="columnID" value="@j" />
+                                <input type="hidden" name="pinned" value="false" />
+                                <button type="submit" asp-controller="Admin" asp-action="EditLink" class="btn btn-warning"><i class="bi bi-pencil"></i></button>
+                                <button type="submit" asp-controller="Admin" asp-action="DeleteLink" class="btn btn-warning"><i class="bi bi-trash"></i></button>
+                                <img src="https://www.google.com/s2/favicons?domain_url=@Model.GetData(Model.columns[j])[i].permalink" alt="@Model.GetData(Model.columns[j])[i].permalink" class="icon" />
+                                <a class="text-dark" href="@Model.GetData(Model.columns[j])[i].permalink">@Model.GetData(Model.columns[j])[i].linkName</a><br>
+                            </form>
+                        </div>
+                    }
+                </div>
+            } *@
+        @* </div> *@
+    </div>
+</form>
+
+@section scripts {
+    <script>
+        startAutoLogout();
+    </script>
+}

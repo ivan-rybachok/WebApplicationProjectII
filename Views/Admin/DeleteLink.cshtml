@@ -1,0 +1,27 @@
+@model Column;
+
+<form method="post">
+    <div>
+        <h1 class="d-inline text-secondary">_launchPad.</h1>
+        <h4 class="d-inline text-secondary">Administration</h4>   
+        <input type="submit" asp-controller="Login" asp-action="Logout" value="Logout" class="align-top btn btn-success"><span id="lblExpire" class="text-warning" style="margin-left:10px"></span>
+    </div>
+    <h1 class="text-warning pt-2">Delete Link.</h1>
+    <p>Are you sure you want to delete the following link?</p>
+    <div class="mb-2">
+        @* hidden field is using the link id to know which link information to delete *@
+        <input type="hidden" asp-for="@Model.linkID" value="@Model.linkID"/>
+        <img src="https://www.google.com/s2/favicons?domain_url=@Model.permalink" alt="@Model.permalink" class="icon" />
+        <a class="text-dark" href="@Model.permalink">@Model.linkName | @Model.permalink</a>
+    </div>
+    <div class="form-group pt-3">
+        <input type="submit" asp-controller="Admin" asp-action="DeleteLinkSubmit" class="btn btn-warning" value="Delete" />
+        <a asp-controller="Admin" asp-action="Index"><input type="button" class="btn btn-warning" value="Cancel" /></a>
+    </div>
+</form>
+
+@section scripts {
+    <script>
+        startAutoLogout();
+    </script>
+}
