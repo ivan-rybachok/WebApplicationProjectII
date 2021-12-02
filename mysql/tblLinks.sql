@@ -6,6 +6,30 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+CREATE TABLE `tblLogin` (
+  `username` varchar(45) NOT NULL,
+  `password` varchar(200) NOT NULL,
+  `salt` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblLogin`
+--
+
+INSERT INTO `tblLogin` (`username`, `password`, `salt`) VALUES
+('user', 'uLzOc9hqo47A75r1r9TE3ZctD3qmWEA4oQip4zfpgMg=', 'KUgMBBIZbPDsMiGUOc1UvQ=='),
+('ivan', 'rdaXiJuswEf5xKRURho+EOk2RyGbR2np/DUUmJlAbLk=', '1QCzeTbgxa3G1sxHyiTUEg==');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `tblLogin`
+--
+ALTER TABLE `tblLogin`
+ADD PRIMARY KEY (`username`);
+
 
 CREATE TABLE IF NOT EXISTS `tblCategories` (
   `categoryID` int(10) NOT NULL AUTO_INCREMENT,
